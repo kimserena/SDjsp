@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace="BuildingsMapper">
+
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap type="smartdaily.jsp.model.Buildings" id="buildings">
+	    <!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+        <result property="buildingid" column="buildingid"/>
+        <result property="buildingname" column="buildingname"/>
+        <result property="locationid" column="locationid"/>
+        <result property="areasize" column="areasize"/>
+        
+        
+        
+	</resultMap>
+	
+	<!-- 돈사 정보 저장하기 -->
+	<insert id="insertBuildings" parameterType="smartdaily.jsp.model.Buildings" useGeneratedKeys="true" keyProperty="buildingid">
+	  INSERT INTO smartdaily.buildings 
+	    (buildingname, locationid, areasize)
+	  VALUES 
+	    (#{buildingname}, #{locationid}, #{areasize})
+	</insert>
+	
+	<!-- 하나의 농장에 속한 돈사 목록을 조회한다. -->
+	<select id="selectBuildingsList" parameterType="smartdaily.jsp.model.Buildings" resultMap="buildings">
+	  SELECT buildingid, buildingname, locationid, areasize
+      FROM smartdaily.buildings
+      WHERE locationid = #{locationid}
+	  
+	</select>
+	
+	
+	
+	<!-- 돈사 삭제하기 -->
+	<delete id="deleteBuildings" parameterType="smartdaily.jsp.model.Buildings">
+	  DELETE FROM smartdaily.buildings WHERE buildingid=#{buildingid}
+	</delete>
+	
+	<!-- 농장 삭제 전 돈사 삭제하기 -->
+	<delete id="deleteLocationBuildings" parameterType="smartdaily.jsp.model.Buildings">
+	  DELETE FROM smartdaily.buildings WHERE locationid=#{locationid}
+	</delete>
+	
+</mapper>

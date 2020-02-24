@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace="AssignmentsMapper">
+
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap type="smartdaily.jsp.model.Assignments" id="assignments">
+	    <!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+        <result property="idx" column="idx"/>
+        <result property="useridx" column="useridx"/>
+        <result property="locationid" column="locationid"/>
+        <result property="level" column="level"/>
+        
+        
+        <result property="locationname" column="locationname"/>
+        <result property="location" column="location"/>
+        <result property="loca_useridx" column="loca_useridx"/>
+        
+	</resultMap>
+	
+	<!-- 서브아이디 권한 정보 저장하기(초기화) -->
+	<insert id="insertAssignmentsSubid" parameterType="smartdaily.jsp.model.Assignments" useGeneratedKeys="true" keyProperty="idx">
+	  INSERT INTO smartdaily.assignments 
+	    (useridx, locationid, level)
+	  VALUES 
+	    (#{useridx}, #{locationid}, 0)
+	</insert>
+	
+	<!-- 서브아이디의 농장별 권한을 조회한다. -->
+	<select id="selectAssignmentsJoinLocationsAndUsersList" parameterType="smartdaily.jsp.model.Assignments" resultMap="assignments">
+	  SELECT 
+	       assign.idx, assign.useridx, assign.locationid, assign.level, 
+	       lo.locationid, lo.locationname, lo.location, 
+	       u.useridx
+      FROM smartdaily.assignments AS assign
+      LEFT JOIN smartdaily.locations AS lo ON assign.locationid = lo.locationid
+      LEFT JOIN smartdaily.users AS u ON assign.useridx = u.useridx
+      WHERE assign.useridx = #{useridx}
+	  
+	</select>
+	
+	<!-- 서브아이디의 농장별 권한 수정하기 -->
+	<update id="updateAssignmentsSubid" parameterType="smartdaily.jsp.model.Assignments">
+	  UPDATE smartdaily.assignments SET 
+	    level=#{level} 
+	  WHERE useridx=#{useridx} AND locationid=#{locationid} 
+	</update>
+	
+	
+	
+	<!-- 농장 삭제시 권한정보 삭제하기 -->
+	<delete id="deleteAssignmentsLocations" parameterType="smartdaily.jsp.model.Assignments">
+	  DELETE FROM smartdaily.assignments WHERE locationid=#{locationid}
+	</delete>
+	
+	<!-- 서브아이디 삭제시 권한정보 삭제하기 -->
+	<delete id="deleteAssignmentsSubid" parameterType="smartdaily.jsp.model.Assignments">
+	  DELETE FROM smartdaily.assignments WHERE useridx=#{useridx}
+	</delete>
+	
+	<!-- 협력사 권한정보 삭제하기 -->
+	<delete id="deleteGuestAssignments" parameterType="smartdaily.jsp.model.Assignments">
+	  DELETE FROM smartdaily.assignments WHERE locationid=#{locationid} AND useridx=#{useridx}
+	</delete>
+	
+	<!-- 협력사 권한 정보 저장하기 -->
+	<insert id="insertGuestAssignments" parameterType="smartdaily.jsp.model.Assignments" useGeneratedKeys="true" keyProperty="idx">
+	  INSERT INTO smartdaily.assignments 
+	    (useridx, locationid, level)
+	  VALUES 
+	    (#{useridx}, #{locationid}, 1)
+	</insert>
+	
+	<select id="selectGuestAssignmentsCount" parameterType="smartdaily.jsp.model.Assignments" resultType="int">
+	  SELECT count(idx) 
+	  FROM smartdaily.assignments 
+	  WHERE useridx=#{useridx} AND locationid=#{locationid}
+	</select>
+	
+</mapper>

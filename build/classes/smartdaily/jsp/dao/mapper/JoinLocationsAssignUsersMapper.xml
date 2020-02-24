@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace="JoinLocationsAssignUsersMapper">
+
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap type="smartdaily.jsp.model.JoinLocationsAssignUsers" id="joinLocationsAssignUsers">
+	    <!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+        <result property="useridx" column="useridx"/>
+        <result property="usertype" column="usertype"/>
+        <result property="userlevel" column="userlevel"/>
+        <result property="companyname" column="companyname"/>
+        
+        <result property="locationid" column="locationid"/>
+        <result property="locationname" column="locationname"/>
+        <result property="location" column="location"/>
+        <result property="locationsort" column="locationsort"/>
+        <result property="loca_useridx" column="loca_useridx"/>
+        
+        <result property="idx" column="idx"/>
+        <result property="level" column="level"/>
+        
+	</resultMap>
+	
+	<select id="selectJoinLocationsAssignUsersList" parameterType="smartdaily.jsp.model.JoinLocationsAssignUsers" resultMap="joinLocationsAssignUsers">
+	  SELECT assign.idx, assign.useridx, assign.locationid, assign.level, u.useridx, u.companyname, lo.locationid, lo.locationname, lo.location, lo.locationsort 
+      FROM smartdaily.locations AS lo
+      LEFT JOIN smartdaily.users AS u ON u.useridx = lo.loca_useridx 
+      LEFT JOIN smartdaily.assignments AS assign ON assign.locationid = lo.locationid 
+      WHERE assign.useridx = #{useridx} AND assign.level = 1
+	</select>
+	
+	<select id="selectFarmUsersList" parameterType="smartdaily.jsp.model.JoinLocationsAssignUsers" resultMap="joinLocationsAssignUsers">
+	  SELECT useridx, usertype, companyname 
+	  FROM smartdaily.users 
+	  WHERE usertype = 1;
+	</select>
+	
+	<select id="selectSubcontractorList" parameterType="smartdaily.jsp.model.JoinLocationsAssignUsers" resultMap="joinLocationsAssignUsers">
+	  SELECT useridx, usertype, companyname 
+	  FROM smartdaily.users 
+	  WHERE usertype = 2;
+	</select>
+		
+</mapper>

@@ -1,0 +1,8 @@
+.list_board_section .list_area li.board_box {
+    display: table;
+    position: relative;
+    width: 100%;
+    border-bottom: 1px solid #f0f0f0;
+    word-break: break-all;
+    word-wrap: break-word;
+}

@@ -1,0 +1,221 @@
+@charset "utf-8";
+
+
+/* initialize */
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {margin: 0; padding: 0; border: 0; outline: 0; background: transparent; -webkit-text-size-adjust: none;}
+body {font: 11px/normal 'Nanum Gothic', 'Malgun Gothic', '맑은 고딕', 'Dotum', '돋움', sans-serif; color: #333;}
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary {display: block;}
+nav, menu, ul, ol, dl, li {list-style: none;}
+blockquote, q {quotes: none;}
+blockquote:before, blockquote:after,
+q:before, q:after {content: ''; content: none;}
+a:link {color: #333; text-decoration: none;}
+a:visited {color: #333; text-decoration: none;}
+a:active, a:hover {color: #333; text-decoration: none;}
+small {font-size: 0.8em;}
+ins {background-color: #ff9; color: #000; text-decoration: none;}
+mark {background-color: #ff9; color: #000; font-weight: bold;}
+del {text-decoration: line-through;}
+abbr[title], dfn[title] {border-bottom: 1px dotted #000; cursor: help;}
+table {width: 100%; border: 0 none; table-layout: fixed;}
+table td, table th {padding: 0; border: 0 none;}
+img {vertical-align: middle; border: 0 none; max-width: 100%; height: auto;}
+hr, legend {visibility: hidden; height: 1px; width: 1px; position: absolute; line-height: 0;}
+h1, h2, h3, h4, h5, h6 {font-size: 1em;}
+
+/* input type */
+input, select, textarea, button {font: 1em/normal 'Nanum Gothic', sans-serif; color: #333; vertical-align: middle; padding: 0; margin: 0; resize: none; font-weight: 400; border-radius: 0;}
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=number],
+input[type=search] {width: 100%; padding: 0.6em 1em 0.6em; border: none; background: #f2f1f1; border-radius: 8px; -webkit-appearance: none; -moz-appearance: none; -ms-appearance: none; -o-appearance: none; appearance: none;}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+textarea {width: 100%; padding: 0.6em 1em 0.6em; border: none; background: #f2f1f1; border-radius: 8px; min-height: 100px; line-height: 1.4; -webkit-appearance: none; -moz-appearance: none; -ms-appearance: none; -o-appearance: none; appearance: none; line-height: normal;}
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, input[type=number]:focus, textarea:focus {outline: 0 none;}
+input[type=checkbox], input[type=radio] {width: 18px !important; height: 18px !important; vertical-align: top; cursor: pointer;}
+input[type=submit], input[type=image], input[type=reset], button {cursor: pointer; border: 0 none; background: none; border-radius: 0; -webkit-border-radius: 0; -webkit-appearance: none; -moz-appearance: none; -ms-appearance: none; -o-appearance: none; appearance: none; outline: 0 none;}
+
+::-webkit-input-placeholder {color: #a9a9a9;}
+:-moz-placeholder {color: #a9a9a9;}
+::-moz-placeholder {color: #a9a9a9;}
+:-ms-input-placeholder {color: #a9a9a9;}
+
+html, body {height: 100%;}
+body {overflow-x: hidden; background: #fff;}
+body *,
+body *:before,
+body *:after {word-break: keep-all; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
+body.yscroll-disabled {overflow-y: hidden;}
+select::-ms-expand {display: none;}
+
+body {margin: 0; /*body의 바깥 여백을 없앰으로서 내비게이션 바가 페이지에 바짝 붙게 함*/}
+
+header {margin-top: 80px; /*페이지의 맨 위에서 메뉴가 header를 가리지 않도록 공백을 만듬*/}
+
+.container {min-height: 100%; width: 100% !important; padding: 0 !important; margin: 0 !important; background: #f8f8f8;}
+.container:after {content: ''; display: block; clear: both;}
+
+.content-header {position: relative; min-height: 94px; padding: 15px 20px 0; background: #fff; box-shadow : 0 0px 5px #bbb;}
+.content-header h3 {display: inline-block; font-weight: 800; font-size: 15px; margin-top: 6px; word-break: break-all;}
+.content-header .en-title-v {display: block; padding-top: 13px; font-weight: normal; font-size: 15px; color: #a9a9a9;}
+.content-header .en-title-h {margin-left: 20px; font-weight: normal; font-size: 12px; color: #a9a9a9;}
+.content-header .board-date {display: block; padding-top: 10px; font-weight: normal; font-size: 11px; color: #a9a9a9;}
+.content-header .board-hit {display: block; padding-top: 2px; padding-bottom: 10px; font-size: 11px; color: #a9a9a9;}
+.content-header .content-thumb-box {width: 20%; position: relative; text-align: center;}
+.content-header .thumb-img {display: inline-block; width: 55px; height: 55px; border-radius: 30px; background-size: cover; background-position: 50% 50%; background-repeat: no-repeat;}
+.content-header .board-writer {color: #00202c; font-size: 11px;}
+.content-header .on-board-detail {height: 0px;}
+
+.blank-for-greenbar {position: absolute; bottom: 0; background: #fff; width: 108px; height: 19px; border-bottom: 3px solid #87b135;}
+
+.content {padding: 15px 20px;}
+.content-right-notpd {padding: 15px 0 15px 20px;}
+.content nav {text-align: center;}
+
+.content .pagination>.active>a,
+.content .pagination>.active>a:focus,
+.content .pagination>.active>a:hover,
+.content .pagination>.active>span,
+.content .pagination>.active>span:focus,
+.content .pagination>.active>span:hover {
+	background-color: #00202c;
+	border-color: #00202c;
+}
+
+.img-responsive {width: 80%;}
+
+.pr-0 {padding-right: 0 !important;}
+.pr-15 {padding-right: 15px !important;}
+
+.mt-15 {margin-top: 15px;}
+.ml-10 {margin-left: 10px;}
+.ml-20 {margin-left: 20px;}
+.mb-50 {margin-bottom: 50px !important;}
+
+.content-bottom-noline {position: relative; padding: 15px;}
+.content-bottom-noline>p {margin-bottom: 30px;}
+.content-bottom {position: relative; padding: 15px; border-top: 1px solid #00202c;}
+.content-list-bottom {position: relative; margin-top: 15px; relative; border-top: 1px solid #00202c;}
+
+.green-box {position: relative; padding: 18px 15px; background-color: #87b13520; border-radius: 12px; margin-bottom: 30px; box-shadow: 2px 3px 5px #bbb;}
+.green-box-right-notpd {padding: 18px 35px 18px 15px; border-radius: unset; border-top-left-radius: 12px; border-bottom-left-radius: 12px;}
+.green-box h3 {position: relative; padding-left: 11px; font-size: 18px; margin: 0 0 12px 0.6em; font-weight: bold;}
+.green-box #sn {background: #fff !important; padding: 0.9em 1em 0.9em;}
+.green-box .btn-write {padding: 0.65em 0.7em 0.65em; background: #87b135; color: #fff; border-radius: 7px; font-size: 14px; margin-right: -7px;}
+.green-box .btn-request {padding: 0.65em 1.5em 0.65em; background: #87b135; color: #fff; border-radius: 18px; font-size: 14px;}
+.green-box .green-box-sub-left {display: inline-block; width: 63%; vertical-align: middle;}
+.green-box .green-box-sub-right {display: inline-block; width: 33%; text-align: right; vertical-align: middle;}
+
+.icon-green-bar {position: absolute; width: 4px; height: 15px; background: url(/RXCommunity/asset/img/icon_green_bar.png) no-repeat 0 50%; background-size: 5px 24px; top: -3px; left: 0;}
+
+.close {opacity: 1 !important; color: #00202c;}
+
+/* 메인 */
+.main-top-img-box {width: 100%; height: 30%;}
+.main-top-img-box>a>img {width: 100%; height: 30%;}
+.content-main-header {position: relative; height: 60px; padding: 15px 20px 0; background: #fff; box-shadow : 0 0px 5px #bbb;}
+.content-main-header h3 {display: inline-block; font-weight: 800; font-size: 15px; margin-top: 6px;}
+#carousel_section {padding-top: 0 !important; padding-right: 20px;}
+
+.content-main-header > a {position: absolute; color: #87b135; font-weight: bold; right: 15px; font-size: 15px; top: 21px;}
+.content-main-header > a::after {content: ''; width: 10px; height: 10px; top: 17px; right: 12px; transform: rotate(45deg); -webkit-transform: rotate(-45deg); border: solid #87b135; border-width: 0 2px 2px 0; display: inline-block; padding: 3px;}
+.content-main-header > a:active, .content-main-header > a:hover {font-weight: bold;}
+
+/* 탭 */
+.addition-menu {position: absolute; bottom: 0; display: block; background: #fff; margin-top: 14px;}
+.addition-menu .menu {padding: 0; overflow: hidden; margin: 0 auto; height: 36px; bottom: 0;}
+.addition-menu .menu li {float: left; padding: 0 15px; height: 36px;}
+.addition-menu .menu li a {display: block; padding: 5px 10px; color: #a9a9a9; font-size: 13px;}
+.addition-menu .menu li a.a {border-bottom: 3px solid #87b135; padding-bottom: 5px; color: #00202c; font-weight: bold;}
+.addition-menu .menu li a:focus, a:hover {text-decoration: none; font-weight: normal;}
+
+/* 공통게시판 리스트형 */
+.common-board-list {}
+.common-board-list-right-notpd {padding: 0 0 0 15px !important;}
+.common-board-list .list {position: relative; list-style: none; padding: 0; margin: 0;}
+.common-board-list .list li {position: relative; overflow: hidden;}
+.common-board-list .list .profile-img {float: left; margin: 5px 10px 0 0; display: inline-block; width: 55px; height: 45px; border-radius: 30px; background-size: cover; background-position: 50% 50%; background-repeat: no-repeat;}
+.common-board-list .list .info {margin-left: 75px; color: #707070; border-bottom: 1px solid #707070; height: 55px;}
+.common-board-list .list .info a:active, .common-board-list .list .info a:hover {font-weight: bold;}
+.common-board-list .list .info .title {display: inline-block; padding-top: 6px; font-size: 13px; font-weight: bold; color: #000; width: 70%; margin: 2px 0; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
+.common-board-list .list .info .date {display: inline-block; float: right; font-size: 10px; width: 30%; text-align: right; margin-top: 9px; padding-right: 10px;}
+.common-board-list .list .info .cont {display: inline-block; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 70%;}
+.common-board-list .list .info .cnt {display: inline-block; float: right; font-size: 10px; width: 30%; text-align: right; margin-top: 0px; padding-right: 10px;}
+.common-board-list .not-list-data {border-bottom: 1px solid #00202c; color: #00202; font-size: 17px; font-weight: bold; line-height: 50px; padding-bottom: 25px; text-align: center; text-shadow: 1px 1px 3px #00202c50;}
+.common-board-list .not-list-data-noline {color: #00202; font-size: 17px; font-weight: bold; line-height: 50px; text-align: center; text-shadow: 1px 1px 3px #00202c50;}
+
+/* dnf table */
+.tb-dnf {margin-bottom: 50px; font-size: 17px;}
+.tb-dnf>thead>tr>th {border-bottom: 3px solid #00202c;}
+.tb-dnf>tbody>tr:first-child>td {padding-top: 25px; vertical-align: bottom;}
+.tb-dnf>tbody>tr:last-child {border-bottom: 1px solid #87b135;}
+.tb-dnf>tbody>tr>td, .tb-dnf>tbody>tr>th, .tb-dnf>tfoot>tr>td, .tb-dnf>tfoot>tr>th, .tb-dnf>thead>tr>td, .tb-dnf>thead>tr>th {border-top: 1px solid #a9a9a9;}
+
+/* 버튼 */
+.btn-dark-green-round {padding: 0.6em 1.5em 0.6em; background: #00202c; color: #87b135 !important; border-radius: 16px; font-size: 14px;}
+.btn-dark-green-square {padding: 0.5em 1em 0.5em; background: #00202c; color: #87b135 !important; border-radius: 7px; font-size: 14px;}
+.btn-green-square {padding: 0.5em 1em 0.5em; background: #87b135; color: #fff; border-radius: 7px; font-size: 14px; width: 200px;}
+
+/* 공통 폼 입력 박스 */
+.form-input-box {position: relative; padding: 15px 0;}
+.form-input-box h3 {position: relative; padding-left: 11px; font-size: 18px; margin: 0 0 12px 0.6em; font-weight: bold;}
+.form-input-box input[type=text]:focus,
+.form-input-box textarea:focus {
+	border: 1px solid #87b135;
+	outline: 0 none;
+}
+.board-con {padding: 15px 0 30px 0; word-break: break-all;}
+
+/* 파일 */
+.file-box {margin-bottom: 15px; box-sizing: border-box;}
+.file-box label {position: relative; cursor: pointer; width: 32%;}
+.file-box label span {width: 100%; display: inline-block; text-align: center;}
+.file-box label input {position: absolute; width: 0; height: 0; overflow: hidden;}
+.file-box label i {margin-right: 8px;}
+.file-box input[type=text] {display: inline-block; width: 66%; margin-top: -3px;}
+
+/* 검색폼 */
+.search-input-box {position: relative;}
+.search-input-box i {position: absolute; top: 11px; left: 11px; color: #87b135;}
+.search-input-box input {padding-left: 2.4em; padding-right: 4.5em; background: #fff; border: 1px solid #87b135;}
+.search-input-box button {position: absolute; padding: 0.7em 1em 0.7em; background: #87b135; color: #fff; border-top-right-radius: 8px; border-bottom-right-radius: 8px; top: 0; right: 0;}
+
+/* 댓글 */
+.comment-box {position: relative; padding: 15px 0; border-bottom: 1px solid #00202c; margin-bottom: 15px;}
+.comment-box h3 {position: relative; padding-left: 11px; font-size: 18px; margin: 0 0 12px 0.6em; font-weight: bold;}
+.comment-input-box {position: relative;}
+.comment-input-box input {padding: 0.7em 4.5em 0.7em 1em;}
+.comment-input-box button {position: absolute; padding: 0.7em 1em 0.7em; background: #00202c; color: #87b135; border-top-right-radius: 8px; border-bottom-right-radius: 8px; top: 0; right: 0;}
+#comment_list {display: table; width: 95%; margin-left: auto; margin-right: auto;}
+#comment_list .pull-left {color: #777;}
+#comment_list .btn {background: #c7c7ca; color: #011f2b;}
+.on-three-btn .btn-dark-green-round {padding: 0.6em 1em 0.6em;}
+
+/* 자주묻는질문 */
+.faq-box {position: relative;}
+.faq-box li {position: relative; padding: 15px 0;}
+.faq-box h3 {position: relative; padding-left: 11px; font-size: 15px; margin-left: 0.6em; font-weight: bold;}
+.faq-box .question {position: relative; padding: 0 30px 0 0; cursor: pointer; font-size: 15px; font-weight: bold;}
+.faq-box .question:after {position:absolute; top:50%; right:5px; margin-top:-3px; content:''; display:block; width:0; height:0; transition:.2s;}
+.faq-box .question.on {font-weight:500;}
+.faq-box .question.on:after {transform:rotate(-180deg);}
+.faq-box .answer {display: none; margin: 10px 0 0; font-weight: bold; font-size: 14px; line-height: 1.5em;}
+.faq-box .green-box {padding: 15px 23px;}
+.blank-for-graybar {position: absolute; bottom: 0; left: 38px; width: 100%; height: 0; border-bottom: 1px solid #ddd;}

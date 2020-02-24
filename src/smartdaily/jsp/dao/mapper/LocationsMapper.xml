@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace="LocationsMapper">
+
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap type="smartdaily.jsp.model.Locations" id="locations">
+	    <!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+        <result property="locationid" column="locationid"/>
+        <result property="locationname" column="locationname"/>
+        <result property="location" column="location"/>
+        <result property="locationsort" column="locationsort"/>
+        <result property="loca_useridx" column="loca_useridx"/>
+        
+        <result property="useridx" column="useridx"/>
+        <result property="name" column="name"/>
+        <result property="level" column="level"/>
+        
+        
+        
+	</resultMap>
+	
+	<!-- 농장 정보 저장하기 -->
+	<insert id="insertLocations" parameterType="smartdaily.jsp.model.Locations" useGeneratedKeys="true" keyProperty="locationid">
+	  INSERT INTO smartdaily.locations 
+	    (locationname, location, locationsort, loca_useridx)
+	  VALUES 
+	    (#{locationname}, #{location}, #{locationsort}, #{loca_useridx})
+	</insert>
+	
+	<!-- 하나의 아이디에 속한 농장 목록을 조회한다. -->
+	<select id="selectLocationsList" parameterType="smartdaily.jsp.model.Locations" resultMap="locations">
+	  SELECT locationid, locationname, location, locationsort, loca_useridx 
+	  FROM smartdaily.locations
+	  WHERE loca_useridx = #{loca_useridx}
+	  
+	</select>
+	
+	<!-- 하나의 농장 정보를 조회한다. -->
+	<select id="selectLocations" parameterType="smartdaily.jsp.model.Locations" resultMap="locations">
+	  SELECT locationid, locationname, location, locationsort, loca_useridx 
+	  FROM smartdaily.locations
+	  WHERE locationid = #{locationid}
+	  
+	</select>
+	
+	<!-- 농장 삭제하기 -->
+	<delete id="deleteLocations" parameterType="smartdaily.jsp.model.Locations">
+	  DELETE FROM smartdaily.locations WHERE locationid=#{locationid}
+	</delete>
+	
+	<!-- 농장 정보 수정하기 -->
+	<update id="updateLocations" parameterType="smartdaily.jsp.model.Locations">
+	  UPDATE smartdaily.locations SET 
+	    locationname=#{locationname}, location=#{location}, locationsort=#{locationsort}
+	  WHERE locationid=#{locationid}
+	</update>
+	
+	
+	<!-- 전체 버스 노선 수를 조회한다. -->
+	<select id="selectLocationsCount" parameterType="smartdaily.jsp.model.Locations" resultType="int">
+	  SELECT COUNT(com_no) FROM smartdaily.locations
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>

@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+.page-header {
+	
+	width: 100%;
+    float: left;
+}
+
+.title {
+	padding-top : 50px;
+}
+
+.menu {
+    background: #005495;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    padding-left: 3%;
+    padding-top: 20px;
+    text-align: center;
+    padding-bottom: 20px;
+    /* margin-left: -390px; */
+}
+
+.menu_bar {
+    width: 140px;
+    float: left;
+    background: #005495;
+}
+
+.menu_bar_list {
+    margin-bottom: 10px;
+}
+
+.menu_bar_list a {
+    text-decoration: none;
+    color: #fff;
+}

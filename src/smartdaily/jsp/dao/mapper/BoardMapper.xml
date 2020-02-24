@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace="BoardMapper">
+
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap type="smartdaily.jsp.model.Board" id="board">
+	    <!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+        <result property="idx" column="idx"/>
+        <result property="cate" column="cate"/>
+        <result property="inquire_cate" column="inquire_cate"/>
+        <result property="writer" column="writer"/>
+        <result property="writer_useridx" column="writer_useridx"/>
+        <result property="content" column="content"/>
+        <result property="regdate" column="regdate"/>
+        <result property="editdate" column="editdate"/>
+        <result property="board_ipaddress" column="board_ipaddress"/>
+        <result property="board_confirm" column="board_confirm"/>
+        <result property="subject" column="subject"/>
+        <result property="designation" column="designation"/>
+        <result property="tel" column="tel"/>
+        <result property="email" column="email"/>
+        <result property="postcode" column="postcode"/>
+        <result property="address1" column="address1"/>
+        <result property="address2" column="address2"/>
+        
+        
+        
+        
+	</resultMap>
+	
+	<!-- 공지사항 -->
+	<!-- 공지사항 정보 저장하기 -->
+	<insert id="insertBoardNotice" parameterType="smartdaily.jsp.model.Board" useGeneratedKeys="true" keyProperty="idx">
+	  INSERT INTO smartdaily.board 
+	    (cate, writer, writer_useridx, subject, content, regdate, editdate, board_ipaddress, board_confirm)
+	  VALUES 
+	    ('notice', #{writer}, #{writer_useridx}, #{subject}, #{content}, now(), now(), #{board_ipaddress}, #{board_confirm})
+	</insert>
+	
+	<select id="selectBoardNoticeList" parameterType="smartdaily.jsp.model.Board" resultMap="board">
+	  SELECT 
+	       idx, cate, writer, writer_useridx, subject, content, 
+	       DATE_FORMAT(regdate, '%Y-%m-%d') AS regdate, 
+	       DATE_FORMAT(editdate, '%Y-%m-%d') AS editdate,
+	       board_ipaddress, board_confirm
+	  FROM smartdaily.board
+	  WHERE cate = 'notice'
+	  ORDER BY idx DESC
+	  LIMIT #{limit_start}, #{list_count}
+	</select>
+	
+	<select id="selectBoardNotice" parameterType="smartdaily.jsp.model.Board" resultMap="board">
+	  SELECT 
+	       idx, cate, writer, writer_useridx, subject, content, 
+           DATE_FORMAT(regdate, '%Y-%m-%d') AS regdate, 
+	       DATE_FORMAT(editdate, '%Y-%m-%d') AS editdate,
+	       board_ipaddress, board_confirm
+	  FROM smartdaily.board
+	  WHERE cate = 'notice' AND idx=#{idx}
+	</select>
+	
+	<update id="updateBoardNotice" parameterType="smartdaily.jsp.model.Board">
+	  UPDATE smartdaily.board SET
+	    subject=#{subject}, content=#{content}, editdate=now(), board_ipaddress=#{board_ipaddress}
+	  WHERE writer_useridx = #{writer_useridx} AND idx=#{idx}
+	</update>
+	
+	<delete id="deleteBoardNotice" parameterType="smartdaily.jsp.model.Board">
+	  DELETE FROM smartdaily.board WHERE writer_useridx = #{writer_useridx} AND idx=#{idx}
+	</delete>
+	
+	<select id="selectBoardNoticeCount" parameterType="smartdaily.jsp.model.Board" resultType="int">
+	  SELECT COUNT(idx) FROM smartdaily.board WHERE cate = 'notice'
+	</select>
+	
+	
+	
+	
+	<!-- 서비스 문의 -->
+	<!-- 서비스 문의 정보 저장하기 -->
+	<insert id="insertBoardService" parameterType="smartdaily.jsp.model.Board" useGeneratedKeys="true" keyProperty="idx">
+	  INSERT INTO smartdaily.board 
+	    (cate, writer, writer_useridx, tel, email, postcode, 
+	    address1, address2, inquire_cate, content, regdate, editdate, board_ipaddress, board_confirm)
+	  VALUES 
+	    ('serviceinq', #{writer}, #{writer_useridx}, #{tel}, #{email}, #{postcode}, 
+	    #{address1}, #{address2}, #{inquire_cate}, #{content}, now(), now(), #{board_ipaddress}, 1)
+	</insert>
+	
+	<select id="selectBoardServiceList" parameterType="smartdaily.jsp.model.Board" resultMap="board">
+	  SELECT 
+	       idx, cate, writer, writer_useridx, tel, email, postcode, 
+	       address1, address2, inquire_cate, content, 
+           DATE_FORMAT(regdate, '%Y-%m-%d') AS regdate, 
+	       DATE_FORMAT(editdate, '%Y-%m-%d') AS editdate,
+	       board_ipaddress, board_confirm
+	  FROM smartdaily.board
+	  WHERE cate = 'serviceinq' AND inquire_cate = '서비스문의'
+	  ORDER BY idx DESC
+	  LIMIT #{limit_start}, #{list_count}
+	</select>
+	
+	<select id="selectBoardService" parameterType="smartdaily.jsp.model.Board" resultMap="board">
+	  SELECT 
+	       idx, cate, writer, writer_useridx, tel, email, postcode, 
+	       address1, address2, inquire_cate, content, 
+	       DATE_FORMAT(regdate, '%Y-%m-%d') AS regdate, 
+	       DATE_FORMAT(editdate, '%Y-%m-%d') AS editdate, 
+	       board_ipaddress, board_confirm
+	  FROM smartdaily.board
+	  WHERE cate = 'serviceinq' AND idx=#{idx} AND inquire_cate = '서비스문의'
+	</select>
+	
+	<update id="updateBoardService" parameterType="smartdaily.jsp.model.Board">
+	  UPDATE smartdaily.board SET
+	    tel=#{tel}, email=#{email}, postcode=#{postcode}, address1=#{address1}, 
+	    address2=#{address2}, inquire_cate=#{inquire_cate}, content=#{content}, 
+	    editdate=now(), board_ipaddress=#{board_ipaddress}
+	  WHERE cate = 'serviceinq' AND idx=#{idx} AND inquire_cate = '서비스문의'
+	</update>
+	
+	<delete id="deleteBoardService" parameterType="smartdaily.jsp.model.Board">
+	  DELETE FROM smartdaily.board WHERE cate = 'serviceinq' AND idx=#{idx} AND inquire_cate = '서비스문의'
+	</delete>
+	
+	<select id="selectBoardServiceCount" parameterType="smartdaily.jsp.model.Board" resultType="int">
+	  SELECT COUNT(idx) FROM smartdaily.board WHERE cate = 'serviceinq' AND inquire_cate = '서비스문의'
+	</select>
+	
+	<!-- 고장문의 -->
+	<select id="selectBoardAsList" parameterType="smartdaily.jsp.model.Board" resultMap="board">
+	  SELECT 
+	       idx, cate, writer, writer_useridx, tel, email, postcode, 
+	       address1, address2, inquire_cate, content, 
+           DATE_FORMAT(regdate, '%Y-%m-%d') AS regdate, 
+	       DATE_FORMAT(editdate, '%Y-%m-%d') AS editdate,
+	       board_ipaddress, board_confirm
+	  FROM smartdaily.board
+	  WHERE cate = 'serviceinq' AND inquire_cate = '고장문의'
+	  ORDER BY idx DESC
+	  LIMIT #{limit_start}, #{list_count}
+	</select>
+	
+	<select id="selectBoardAs" parameterType="smartdaily.jsp.model.Board" resultMap="board">
+	  SELECT 
+	       idx, cate, writer, writer_useridx, tel, email, postcode, 
+	       address1, address2, inquire_cate, content, 
+	       DATE_FORMAT(regdate, '%Y-%m-%d') AS regdate, 
+	       DATE_FORMAT(editdate, '%Y-%m-%d') AS editdate, 
+	       board_ipaddress, board_confirm
+	  FROM smartdaily.board
+	  WHERE cate = 'serviceinq' AND idx=#{idx} AND inquire_cate = '고장문의'
+	</select>
+	
+	<update id="updateBoardAs" parameterType="smartdaily.jsp.model.Board">
+	  UPDATE smartdaily.board SET
+	    tel=#{tel}, email=#{email}, postcode=#{postcode}, address1=#{address1}, 
+	    address2=#{address2}, inquire_cate=#{inquire_cate}, content=#{content}, 
+	    editdate=now(), board_ipaddress=#{board_ipaddress}
+	  WHERE cate = 'serviceinq' AND idx=#{idx} AND inquire_cate = '고장문의'
+	</update>
+	
+	<delete id="deleteBoardAs" parameterType="smartdaily.jsp.model.Board">
+	  DELETE FROM smartdaily.board WHERE cate = 'serviceinq' AND idx=#{idx} AND inquire_cate = '고장문의'
+	</delete>
+	
+	<select id="selectBoardAsCount" parameterType="smartdaily.jsp.model.Board" resultType="int">
+	  SELECT COUNT(idx) FROM smartdaily.board WHERE cate = 'serviceinq' AND inquire_cate = '고장문의'
+	</select>
+	
+	
+	<!-- 견적 문의 -->
+	<!-- 견적문의 정보 저장하기 -->
+	<insert id="insertBoardEstimate" parameterType="smartdaily.jsp.model.Board" useGeneratedKeys="true" keyProperty="idx">
+	  INSERT INTO smartdaily.board 
+	    (cate, writer, writer_useridx, tel, email, postcode, 
+	    address1, address2, inquire_cate, content, regdate, editdate, board_ipaddress, board_confirm)
+	  VALUES 
+	    ('priceinq', #{writer}, #{writer_useridx}, #{tel}, #{email}, #{postcode}, 
+	    #{address1}, #{address2}, #{inquire_cate}, #{content}, now(), now(), #{board_ipaddress}, 1)
+	</insert>
+	
+	<select id="selectBoardEstimateList" parameterType="smartdaily.jsp.model.Board" resultMap="board">
+	  SELECT 
+	       idx, cate, writer, writer_useridx, tel, email, postcode, 
+	       address1, address2, inquire_cate, content, 
+	       DATE_FORMAT(regdate, '%Y-%m-%d') AS regdate, 
+	       DATE_FORMAT(editdate, '%Y-%m-%d') AS editdate, 
+	       board_ipaddress, board_confirm
+	  FROM smartdaily.board
+	  WHERE cate = 'priceinq'
+	  ORDER BY idx DESC
+	  LIMIT #{limit_start}, #{list_count}
+	</select>
+	
+	<select id="selectBoardEstimate" parameterType="smartdaily.jsp.model.Board" resultMap="board">
+	  SELECT 
+	       idx, cate, writer, writer_useridx, tel, email, postcode, 
+	       address1, address2, inquire_cate, content, 
+	       DATE_FORMAT(regdate, '%Y-%m-%d') AS regdate, 
+	       DATE_FORMAT(editdate, '%Y-%m-%d') AS editdate, 
+	       board_ipaddress, board_confirm
+	  FROM smartdaily.board
+	  WHERE cate = 'priceinq' AND idx=#{idx}
+	</select>
+	
+	<update id="updateBoardEstimate" parameterType="smartdaily.jsp.model.Board">
+	  UPDATE smartdaily.board SET
+	    <!-- subject=#{subject}, content=#{content}, editdate=#{editdate}, board_ipaddress=#{board_ipaddress} -->
+	  WHERE cate = 'priceinq' AND idx=#{idx}
+	</update>
+	
+	<delete id="deleteBoardEstimate" parameterType="smartdaily.jsp.model.Board">
+	  DELETE FROM smartdaily.board WHERE cate = 'priceinq' AND idx=#{idx}
+	</delete>
+	
+	<select id="selectBoardEstimateCount" parameterType="smartdaily.jsp.model.Board" resultType="int">
+	  SELECT COUNT(idx) FROM smartdaily.board WHERE cate = 'priceinq'
+	</select>
+	
+	
+	
+	
+	<!-- 조회권한신청/조회권한철회신청 -->
+	<insert id="insertBoardFarmViewAuth" parameterType="smartdaily.jsp.model.Board" useGeneratedKeys="true" keyProperty="idx">
+	  INSERT INTO smartdaily.board 
+	    (cate, writer, writer_useridx, tel, email, postcode, 
+	    address1, address2, inquire_cate, content, regdate, editdate, board_ipaddress, board_confirm, subject)
+	  VALUES 
+	    ('subscription', #{writer}, #{writer_useridx}, #{tel}, #{email}, #{postcode}, 
+	    #{address1}, #{address2}, #{inquire_cate}, #{content}, now(), now(), #{board_ipaddress}, 1, #{subject})
+	</insert>
+	
+	<select id="selectBoardFarmViewAuthList" parameterType="smartdaily.jsp.model.Board" resultMap="board">
+	  SELECT 
+	       idx, cate, writer, writer_useridx, tel, email, postcode, 
+	       address1, address2, inquire_cate, content, 
+           DATE_FORMAT(regdate, '%Y-%m-%d') AS regdate, 
+	       DATE_FORMAT(editdate, '%Y-%m-%d') AS editdate,
+	       board_ipaddress, board_confirm, subject
+	  FROM smartdaily.board
+	  WHERE cate = 'subscription'
+	  ORDER BY idx DESC
+	  LIMIT #{limit_start}, #{list_count}
+	</select>
+	
+	<select id="selectBoardFarmViewAuth" parameterType="smartdaily.jsp.model.Board" resultMap="board">
+	  SELECT 
+	       idx, cate, writer, writer_useridx, tel, email, postcode, 
+	       address1, address2, inquire_cate, content, 
+	       DATE_FORMAT(regdate, '%Y-%m-%d') AS regdate, 
+	       DATE_FORMAT(editdate, '%Y-%m-%d') AS editdate, 
+	       board_ipaddress, board_confirm, subject
+	  FROM smartdaily.board
+	  WHERE cate = 'subscription' AND idx=#{idx}
+	</select>
+	
+	<select id="selectBoardFarmViewAuthCount" parameterType="smartdaily.jsp.model.Board" resultType="int">
+	  SELECT COUNT(idx) FROM smartdaily.board WHERE cate = 'subscription'
+	</select>
+	
+	
+	<!-- 고장문의/서비스문의/견적문의/권한신청 열람 시 상태 업데이트(완료) -->
+	<update id="updateBoardConfirmComplete" parameterType="smartdaily.jsp.model.Board">
+	  UPDATE smartdaily.board SET
+	    board_confirm=2
+	  WHERE idx=#{idx} AND board_confirm=1
+	</update>
+	
+</mapper>

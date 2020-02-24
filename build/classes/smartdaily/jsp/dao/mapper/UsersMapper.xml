@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace="UsersMapper">
+
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap type="smartdaily.jsp.model.Users" id="users">
+	    <!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+        <result property="useridx" column="useridx"/>
+        <result property="userid" column="userid"/>
+        <result property="pw" column="pw"/>
+        <result property="re_pw" column="re_pw"/>
+        <result property="name" column="name"/>
+        <result property="usertype" column="usertype"/>
+        <result property="masterid" column="masterid"/>
+        <result property="userlevel" column="userlevel"/>
+        <result property="companyname" column="companyname"/>
+        <result property="ceoname" column="ceoname"/>
+        <result property="companyno" column="companyno"/>
+        <result property="corpregistno" column="corpregistno"/>
+        <result property="busicondition" column="busicondition"/>
+        <result property="cateofbusiness" column="cateofbusiness"/>
+        <result property="fax" column="fax"/>
+        <result property="postcode" column="postcode"/>
+        <result property="address1" column="address1"/>
+        <result property="address2" column="address2"/>
+        <result property="responsiblename" column="responsiblename"/>
+        <result property="responsibleemail" column="responsibleemail"/>
+        <result property="responsibletel" column="responsibletel"/>
+        <result property="responsiblesellphon" column="responsiblesellphon"/>
+        
+        
+
+
+	</resultMap>
+	
+	<!-- 아이디 중복검사를 수행한다. -->
+	<select id="selectUserIdCount" parameterType="smartdaily.jsp.model.Users" resultType="int">
+	  SELECT count(useridx) FROM smartdaily.users WHERE userid=#{userid}
+	</select>
+	
+	<!-- 사업자등록번호 중복검사를 수행한다. -->
+	<select id="selectCompanynoCount" parameterType="smartdaily.jsp.model.Users" resultType="int">
+	  SELECT count(useridx) FROM smartdaily.users WHERE companyno=#{companyno}
+	</select>
+	
+	<!-- 법인등록번호 중복검사를 수행한다. -->
+	<select id="selectCorpregistnoCount" parameterType="smartdaily.jsp.model.Users" resultType="int">
+	  SELECT count(useridx) FROM smartdaily.users WHERE corpregistno=#{corpregistno}
+	</select>
+	
+	<!-- 회원 정보 저장하기 -->
+	<insert id="insertUsers" parameterType="smartdaily.jsp.model.Users" useGeneratedKeys="true" keyProperty="useridx">
+	  INSERT INTO smartdaily.users 
+	    (userid, pw, name, usertype, userlevel, companyname, ceoname, companyno, corpregistno, busicondition, cateofbusiness, fax, postcode,
+	     address1, address2, responsiblename, responsibleemail, responsibletel, responsiblesellphon)
+	  VALUES 
+	    (#{userid}, password(#{pw}), #{name}, #{usertype}, 2, #{companyname}, #{ceoname}, #{companyno}, #{corpregistno}, #{busicondition}, #{cateofbusiness},
+	     #{fax}, #{postcode}, #{address1}, #{address2}, #{responsiblename}, #{responsibleemail}, #{responsibletel}, #{responsiblesellphon})
+	</insert>
+	
+	<!-- 아이디와 비밀번호가 일치하는 회원정보를 조회한다. -->
+	<select id="selectLoginInfo" parameterType="smartdaily.jsp.model.Users" resultMap="users">
+	  SELECT
+	      useridx, userid, pw, name, userlevel, companyname, ceoname, companyno, corpregistno, busicondition, cateofbusiness, fax, postcode,
+	     address1, address2, responsiblename, responsibleemail, responsibletel, responsiblesellphon, usertype
+	  FROM smartdaily.users
+	  WHERE userid=#{userid} AND pw=password(#{pw})
+	  ORDER BY useridx DESC
+	  LIMIT 0, 1
+	</select>
+	
+	<!-- 회원번호로 회원정보를 조회한다. -->
+	<select id="selectUsers" parameterType="smartdaily.jsp.model.Users" resultMap="users">
+	  SELECT
+	      useridx, userid, pw, name, userlevel, companyname, ceoname, companyno, corpregistno, busicondition, cateofbusiness, fax, postcode,
+	     address1, address2, responsiblename, responsibleemail, responsibletel, responsiblesellphon, usertype
+	  FROM smartdaily.users
+	  WHERE useridx=#{useridx} AND userlevel!=0
+	</select>
+	
+	<!-- 회원 정보 수정하기 -->
+	<update id="updateUsers" parameterType="smartdaily.jsp.model.Users">
+	  UPDATE smartdaily.users SET 
+	    name=#{name}, companyname=#{companyname}, ceoname=#{ceoname}, companyno=#{companyno}, corpregistno=#{corpregistno},
+	    busicondition=#{busicondition}, cateofbusiness=#{cateofbusiness}, fax=#{fax}, postcode=#{postcode},
+	    address1=#{address1}, address2=#{address2}, responsiblename=#{responsiblename}, responsibleemail=#{responsibleemail}, 
+	    responsibletel=#{responsibletel}, responsiblesellphon=#{responsiblesellphon}, usertype=#{usertype}
+	    <if test="re_pw != null and re_pw != ''">
+	     ,pw=password(#{re_pw})
+	    </if>
+	  WHERE useridx=#{useridx} AND pw=password(#{pw})
+	</update>
+	
+	<!-- 관리자 -->
+	<!-- 아이디와 비밀번호가 일치하는 관리자아이디를 조회한다. -->
+	<select id="selectAdminLoginInfo" parameterType="smartdaily.jsp.model.Users" resultMap="users">
+	  SELECT
+	      useridx, userid, pw, name, companyname, ceoname, companyno, corpregistno, busicondition, cateofbusiness, fax, postcode,
+	     address1, address2, responsiblename, responsibleemail, responsibletel, responsiblesellphon, usertype
+	  FROM smartdaily.users
+	  WHERE userid=#{userid} AND pw=password(#{pw}) AND usertype=4
+	  ORDER BY useridx DESC
+	  LIMIT 0, 1
+	</select>
+	
+	<!-- 관리자 페이지의 회원정보 조회. -->
+	<select id="selectAdminUserList" parameterType="smartdaily.jsp.model.Users" resultMap="users">
+	  SELECT
+	      useridx, userid, pw, name, companyname, userlevel, ceoname, companyno, corpregistno, busicondition, cateofbusiness, fax, postcode,
+	     address1, address2, responsiblename, responsibleemail, responsibletel, responsiblesellphon, usertype
+	  FROM smartdaily.users
+	  
+	  
+	  <where> 
+	   userlevel=1 AND userlevel!=0 AND (usertype=1 OR usertype=2)
+	    <if test="userid != null">
+	       
+	           AND userid LIKE concat('%', #{userid}, '%')
+	          
+	    </if>
+	  </where>
+	  ORDER BY useridx DESC
+	  LIMIT #{limit_start}, #{list_count}
+	</select>
+	
+	<!-- 전체 user 수를 조회한다. -->
+	<select id="selectUsersCount" parameterType="smartdaily.jsp.model.Users" resultType="int">
+	  SELECT COUNT(useridx) FROM smartdaily.users WHERE userlevel=1 AND userlevel!=0 AND (usertype=1 OR usertype=2) 
+	</select>
+	
+	<!-- 하나의 농장주에 속한 농장 목록과 서브아이디목록을 조회한다. -->
+	<select id="selectUserSubidList" parameterType="smartdaily.jsp.model.Users" resultMap="users">
+	  SELECT 
+	       useridx, userid, name, usertype, masterid, userlevel 
+	  FROM smartdaily.users 
+	  WHERE masterid=#{masterid};
+	  
+	  
+	</select>
+	
+	<!-- 서브아이디 정보 저장하기 -->
+	<insert id="insertUsersSubID" parameterType="smartdaily.jsp.model.Users" useGeneratedKeys="true" keyProperty="useridx">
+	  INSERT INTO smartdaily.users 
+	    (userid, pw, name, usertype, masterid, userlevel)
+	  VALUES 
+	    (#{userid}, password(#{pw}), #{name}, 3, #{masterid}, 1)
+	  
+	 
+	</insert>
+	
+	<!-- 서브아이디 정보 수정하기 -->
+	<update id="updateUsersSubID" parameterType="smartdaily.jsp.model.Users">
+	  UPDATE smartdaily.users SET 
+	    name=#{name}
+	    <if test="re_pw != null and re_pw != ''">
+	     ,pw=password(#{re_pw})
+	    </if>
+	  WHERE useridx=#{useridx} AND pw=password(#{pw})
+	</update>
+	
+	<!-- 서브아이디 정보 삭제하기 -->
+	<delete id="deleteUsersSubID" parameterType="smartdaily.jsp.model.Users">
+	  DELETE FROM smartdaily.users WHERE useridx=#{useridx}
+	</delete>
+	
+	
+	<!-- 관리자 페이지의 신규 회원정보 조회. -->
+	<select id="selectAdminNewUserList" parameterType="smartdaily.jsp.model.Users" resultMap="users">
+	  SELECT
+	      useridx, userid, pw, name, companyname, userlevel, ceoname, companyno, corpregistno, busicondition, cateofbusiness, fax, postcode,
+	     address1, address2, responsiblename, responsibleemail, responsibletel, responsiblesellphon, usertype
+	  FROM smartdaily.users
+	  
+	  
+	  <where> 
+	   userlevel=2 AND userlevel!=0 AND (usertype=1 OR usertype=2)
+	    <if test="userid != null">
+	       
+	           AND userid LIKE concat('%', #{userid}, '%')
+	          
+	    </if>
+	  </where>
+	  ORDER BY useridx DESC
+	  LIMIT #{limit_start}, #{list_count}
+	</select>
+	
+	<!-- 신규 user 수를 조회한다. -->
+	<select id="selectNewUsersCount" parameterType="smartdaily.jsp.model.Users" resultType="int">
+	  SELECT COUNT(useridx) FROM smartdaily.users WHERE userlevel=2 AND userlevel!=0 AND (usertype=1 OR usertype=2) 
+	</select>
+	
+	<!-- 회원 활성화 -->
+	<update id="updateNewUsers" parameterType="smartdaily.jsp.model.Users">
+	  UPDATE smartdaily.users SET 
+	    userlevel=1
+	  WHERE useridx=#{useridx} AND userlevel=2
+	</update>
+	
+	<!-- 회원의 이용 자격 박탈 -->
+	<update id="updateSuspendUseUsers" parameterType="smartdaily.jsp.model.Users">
+	  UPDATE smartdaily.users SET 
+	    userlevel=0
+	  WHERE useridx=#{useridx}
+	</update>
+	
+	<!-- 관리자 페이지의 이용정지 회원정보 조회. -->
+	<select id="selectAdminSuspendUseUserList" parameterType="smartdaily.jsp.model.Users" resultMap="users">
+	  SELECT
+	      useridx, userid, pw, name, companyname, userlevel, ceoname, companyno, corpregistno, busicondition, cateofbusiness, fax, postcode,
+	     address1, address2, responsiblename, responsibleemail, responsibletel, responsiblesellphon, usertype
+	  FROM smartdaily.users
+	  
+	  
+	  <where> 
+	   userlevel=0 AND (usertype=1 OR usertype=2)
+	    <if test="userid != null">
+	       
+	           AND userid LIKE concat('%', #{userid}, '%')
+	          
+	    </if>
+	  </where>
+	  ORDER BY useridx DESC
+	  LIMIT #{limit_start}, #{list_count}
+	</select>
+	
+	<!-- 이용정지 user 수를 조회한다. -->
+	<select id="selectSuspendUseUsersCount" parameterType="smartdaily.jsp.model.Users" resultType="int">
+	  SELECT COUNT(useridx) FROM smartdaily.users WHERE userlevel=0 AND (usertype=1 OR usertype=2) 
+	</select>
+	
+</mapper>

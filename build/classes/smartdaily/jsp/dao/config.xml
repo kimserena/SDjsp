@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+    
+<configuration>
+	<!-- mysql 접속 정보를 지정 -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver"/>
+				<!-- <property name="url" 
+					value="jdbc:mysql://127.0.0.1:3306/smartdaily?characterEncoding=UTF-8"/> -->
+				<property name="url" 
+					value="jdbc:mysql://101.101.162.62:3306/smartdaily?characterEncoding=UTF-8"/>
+				
+				<property name="username" value="root"/>	
+				<property name="password" value="smartdaily$%21db"/>
+			</dataSource>	
+		</environment>
+	</environments>
+	
+
+	<mappers>
+	    <mapper resource="smartdaily/jsp/dao/mapper/AssignmentsMapper.xml"/>
+	    <mapper resource="smartdaily/jsp/dao/mapper/BuildingsMapper.xml"/>
+		<mapper resource="smartdaily/jsp/dao/mapper/LocationsMapper.xml"/>
+		<mapper resource="smartdaily/jsp/dao/mapper/UsersMapper.xml"/>
+		<mapper resource="smartdaily/jsp/dao/mapper/BoardMapper.xml"/>
+		<mapper resource="smartdaily/jsp/dao/mapper/JoinLocationsAssignUsersMapper.xml"/>
+		<!-- <mapper resource="smartdaily/jsp/dao/mapper/Count_RecordsMapper.xml"/> -->
+		<!-- <mapper resource="smartdaily/jsp/dao/mapper/ReportsMapper.xml"/> -->
+		<!-- <mapper resource="smartdaily/jsp/dao/mapper/Reports_LogMapper.xml"/> -->
+		
+	</mappers>
+
+	
+</configuration>    
+
+
+
+
