@@ -341,7 +341,7 @@
                                                                     <div  style="width:200px;">
                                                                       <c:choose>
 					                                                    <c:when test="${fn:length(farmUsersList) > 0}">
-					                                                    <select id="subject" name="subject" style="padding: 0px; margin: 0px;">
+					                                                    <select id="subject" name="subject">
                                                                           <option value="">선택해주세요</option>
                                                                           <c:forEach var="farmUsersList" items="${farmUsersList}">
                                                                           <option value="${farmUsersList.companyname}">${farmUsersList.companyname}</option>
@@ -361,7 +361,7 @@
                                                                 </div>
                                                              </li>
                                                              
-                                                             <li class="heighthigh">
+                                                             <li class="heighthighx2">
                                                                 <div class="colgroup1">
                                                                     <label for="content">상세내용</label>
                                                                 </div>

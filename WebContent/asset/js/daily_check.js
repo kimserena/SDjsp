@@ -962,7 +962,7 @@ var ajaxCallback4 = function (data) {
     result += '</tbody>';
     
     $('#table4').append(result).addClass("unique4");
-    var data4 = $("#selectBox4").val();
+    var data4 = $("#selectBox4 option:selected").text();
     $('.seltable4').text(data4);
     $(".alltable4").each(function () {
         var rows = $(".alltable4:contains('" + $(this).text() + "')");
@@ -986,7 +986,7 @@ var ajaxCallback4 = function (data) {
 $("#FarmMonthlyReport").submit(function(){
     $(".unique4").empty();
     
-    var data4idx = $("#selectBox4 option").index($("#selectBox4 option:selected"));
+    var data4idx = $("#selectBox4 option:selected").val();
     var allData4 = {"pick_year": $(".ydate").val(), "locationid": data4idx};
      //동적으로 원격에 있는 JSON 파일(결과값)을 로드 
     $.ajax({
@@ -1276,7 +1276,7 @@ var ajaxCallback6 = function (data) {
 $("#FarmDonsaDailyReport").submit(function(){
     $(".unique6").empty();
     
-    var data6idx = $("#good option").index($("#good option:selected"));    
+    var data6idx = $("#good option").index($("#good option:selected"));   
     // 선택된 월(날짜문자열)과 셀렉트박스에서 선택된 돈사아이디(buildingid) 값을 name/value 형태로 담는다.
     var allData = { "pick_month": $(".mdate").val() , "buildingid": data6idx };
     //동적으로 원격에 있는 JSON 파일(결과값)을 로드
@@ -1312,9 +1312,9 @@ var useridCallback = function (data) {
         var nid = nongjang["locationid"];
         var donsaArray = nongjang["buildings"];
         
-        $("#selectBox4").append("<option value='"+ nname +"'>"+ nname +"</option>");
+        $("#selectBox4").append("<option value='"+ nid +"'>"+ nname +"</option>");
         $("#selectBox5").append("<option value='"+ nid +"'>"+ nname +"</option>");       
-        $("#selectBox6").append("<option value='"+ nid +"'>"+ nname +"</option>");
+        $("#selectBox6").append("<option value='"+ index_nongjang +"'>"+ nname +"</option>");
         
         if (donsaArray != null) {
             //  돈사 데이터 반복
@@ -1344,12 +1344,16 @@ var useridCallback = function (data) {
 function categoryChange(e) {
     $(".removegood").remove();
     
-    var donsaArray = useriddata[e.value-1].buildings;
-    
-    $.each (donsaArray, function (index_building, donsaOne){
-        var donsaName= donsaOne["buildingname"];
-        $("#good").append("<option class='removegood' value='"+ donsaName +"'>"+donsaName+"</option>");
-    })
+    if (e.value >= 0 && e.value < useriddata.length) {
+    	var donsaArray = useriddata[e.value].buildings;
+
+    	$.each (donsaArray, function (index_building, donsaOne){
+	        var donsaName= donsaOne["buildingname"];
+	        $("#good").append("<option class='removegood' value='"+ donsaName +"'>"+donsaName+"</option>");
+    	})
+    }else{
+    	alert('값이 유효하지 않습니다')
+    }
 }
 
 $('ul.tabs li').click(function () {
